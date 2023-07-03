@@ -154,3 +154,23 @@ public class PillFactoryController extends BaseController {
 }
 ```
 
+### 4. 代码自动生成
+
+1. 修改generator模块中的配置文件
+
+```yml
+# 代码生成
+gen: 
+  # 作者
+  author: jiangxiong
+  # 默认生成包路径 system 需改成自己的模块名称 如 system monitor tool
+  packageName: com.ruoyi.pill
+  # 自动去除表前缀，默认是false
+  autoRemovePre: false
+  # 表前缀（生成类名不会包含表前缀，多个用逗号分隔）
+  tablePrefix: pill_
+```
+
+2. 在若依管理后台，使用代码生成工具
+
+![image-20230703152810210](RuoYi二次开发.assets/image-20230703152810210.png)
