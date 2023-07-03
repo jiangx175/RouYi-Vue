@@ -37,7 +37,7 @@ public class PillFactoryController extends BaseController
     /**
      * 查询生产厂家信息列表
      */
-//    @PreAuthorize("@ss.hasPermi('pill:factory:list')")
+    @PreAuthorize("@ss.hasPermi('pill:factory:list')")
     @GetMapping("/list")
     public TableDataInfo list(PillFactory pillFactory)
     {
