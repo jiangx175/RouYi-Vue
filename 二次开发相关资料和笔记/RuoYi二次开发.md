@@ -224,3 +224,136 @@ gen:
 <img src="RuoYi二次开发.assets/image-20230703193245822.png" alt="image-20230703193245822" style="zoom:67%;" />
 
 - 再次刷新页面，测试该菜单。
+
+### 7. 新增字典
+
+- 在管理后台中，新增药品类型和处方类型字典;
+
+![image-20230703194526417](RuoYi二次开发.assets/image-20230703194526417.png)
+
+### 8.重点：定制化全自动代码生成
+
+**代码自动生成只针对一张表，涉及到多张表需要做相应的修改，如下面的第9点**
+
+- 在字段信息中定制化配置:
+
+![image-20230703195839731](RuoYi二次开发.assets/image-20230703195839731.png)
+
+- 生成信息定制化配置:
+
+![image-20230703200127803](RuoYi二次开发.assets/image-20230703200127803.png)
+
+- 将前后端代码复制到对应的目录下，并且在数据库执行生成的sql脚本。
+
+- 刷新页面，即可看见生成的菜单！
+
+### 9. 多表链接
+
+#### 9.1 存在问题：
+
+- 生产厂家的搜索和显示，应该是另一张表的厂家名称字段：
+
+![image-20230703203409990](RuoYi二次开发.assets/image-20230703203409990.png)
+
+#### 9.2 后端修改：
+
+1. 修改PillDurg实体类，添加PillFactory属性：
+
+```java
+    public void setPillFactory(PillFactory pillFactory) {
+        this.pillFactory = pillFactory;
+    }
+```
+
+2. 修改对应的mapper.xml文件：
+
+```shell
+# 1.resultMap增加下行：
+<association property="pillFactory" javaType="pillFactory" resultMap="com.ruoyi.pill.mapper.PillFactoryMapper.PillFactoryResult" />
+
+# 2.修改整体查询语句：
+<sql id="selectPillDrugVo">
+        select pd.*,pf.* from pill_drug pd left join pill_factory pf on pd.factory_id = pf.factory_id
+</sql>
+    
+# 3.修改查询列表语句：
+    <select id="selectPillDrugList" parameterType="PillDrug" resultMap="PillDrugResult">
+        <include refid="selectPillDrugVo"/>
+        <where>  
+            <if test="drugName != null  and drugName != ''"> and pd.drug_name like concat('%', #{drugName}, '%')</if>
+            <if test="pillFactory != null and pillFactory.factoryName != null and pillFactory.factoryName != ''"> and pf.factory_name like concat('%', #{pillFactory.factoryName}, '%')</if>
+            <if test="drugType != null  and drugType != ''"> and pd.drug_type = #{drugType}</if>
+            <if test="prescriptionType != null  and prescriptionType != ''"> and pd.prescription_type = #{prescriptionType}</if>
+            <if test="status != null  and status != ''"> and pd.status = #{status}</if>
+        </where>
+    </select>
+```
+
+#### 9.3 前端修改：
+
+1. 修改表格展示数据：
+
+```vue
+      <el-table-column label="生产厂家" align="center" prop="pillFactory.factoryName" />
+      <el-table-column label="厂家编号" align="center" prop="pillFactory.factoryCode" />
+```
+
+2. 修改查询参数：
+
+```vue
+<el-form-item label="生产厂家">
+        <el-input
+          v-model="queryParams['pillFactory.factoryName']"
+          placeholder="请输入生产厂家"
+          clearable
+          @keyup.enter.native="handleQuery"
+        />
+</el-form-item>
+
+
+// 查询参数
+queryParams: {
+pageNum: 1,
+pageSize: 10,
+drugName: null,
+'pillFactory.factoryName': null,
+drugType: null,
+prescriptionType: null,
+status: null,
+},
+```
+
+#### 9.4 存在问题2：
+
+- 在新增和修改的表单中。生产厂家字段应该是一个下拉框以供选择：
+
+![image-20230703213525585](RuoYi二次开发.assets/image-20230703213525585.png)
+
+#### 9.5 前端修改：
+
+1. 新建factoryList的data列表数据，创建函数填充该列表
+
+```vue
+    /** 查询厂家信息列表 */
+    getFactoryList() {
+      listFactory().then(response => {
+        this.factoryList = response.rows;
+      });
+    },
+```
+
+2. 修改表单中的生产厂家字段，改为下拉框：
+
+```vue
+<el-form-item label="生产厂家" prop="factoryId">
+          <el-select v-model="form.factoryId" placeholder="请选择生产厂家">
+            <el-option
+              v-for="item in factoryList"
+              :key="item.factoryId"
+              :label="item.factoryName"
+              :value="item.factoryId"
+            ></el-option>
+          </el-select>
+</el-form-item>
+```
+
