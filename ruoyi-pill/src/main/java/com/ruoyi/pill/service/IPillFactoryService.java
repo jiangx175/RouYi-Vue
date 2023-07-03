@@ -1,5 +1,9 @@
 package com.ruoyi.pill.service;
 
+import com.ruoyi.pill.domain.PillFactory;
+
+import java.util.List;
+
 /**
  * @ClassName IPillFactoryService
  * @Description TODO
@@ -8,4 +12,12 @@ package com.ruoyi.pill.service;
  * @Version 1.0
  */
 public interface IPillFactoryService {
+
+    /**
+     * 查询厂商信息集合
+     *
+     * @param factory 厂商信息
+     * @return 厂商列表
+     */
+    public List<PillFactory> selectPillFactoryList(PillFactory factory);
 }
