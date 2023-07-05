@@ -21,6 +21,7 @@ import springfox.documentation.service.SecurityScheme;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spi.service.contexts.SecurityContext;
 import springfox.documentation.spring.web.plugins.Docket;
+import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 /**
  * Swagger2的接口配置
@@ -28,6 +29,7 @@ import springfox.documentation.spring.web.plugins.Docket;
  * @author ruoyi
  */
 @Configuration
+@EnableSwagger2
 public class SwaggerConfig
 {
     /** 系统基础配置 */

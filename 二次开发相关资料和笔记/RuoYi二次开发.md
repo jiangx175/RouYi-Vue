@@ -357,3 +357,38 @@ status: null,
 </el-form-item>
 ```
 
+### 10. 集成swagger ui 测试页面
+
+1. 添加依赖：
+
+```xml
+        <!-- swagger2-->
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger2</artifactId>
+            <version>2.9.2</version>
+        </dependency>
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger-ui</artifactId>
+            <version>2.9.2</version>
+        </dependency>
+
+        <!-- swagger ui测试页面-->
+        <dependency>
+            <groupId>com.github.xiaoymin</groupId>
+            <artifactId>swagger-bootstrap-ui</artifactId>
+            <version>1.9.6</version>
+        </dependency>
+```
+
+2. 在SwaggerConfig类中添加@EnableSwagger2注解：
+
+```java
+@EnableSwagger2
+public class SwaggerConfig
+{
+    .....
+}
+```
+

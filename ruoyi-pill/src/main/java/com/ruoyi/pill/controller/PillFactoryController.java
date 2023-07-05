@@ -2,6 +2,9 @@ package com.ruoyi.pill.controller;
 
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
+
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,6 +30,7 @@ import com.ruoyi.common.core.page.TableDataInfo;
  * @author jiangxiong
  * @date 2023-07-03
  */
+@Api(tags = "生产厂家相关接口")
 @RestController
 @RequestMapping("/pill/factory")
 public class PillFactoryController extends BaseController
@@ -37,6 +41,7 @@ public class PillFactoryController extends BaseController
     /**
      * 查询生产厂家信息列表
      */
+    @ApiOperation("查询生产厂家列表接口")
     @PreAuthorize("@ss.hasPermi('pill:factory:list')")
     @GetMapping("/list")
     public TableDataInfo list(PillFactory pillFactory)
