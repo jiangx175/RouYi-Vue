@@ -2,6 +2,8 @@ package com.ruoyi.web.controller.system;
 
 import java.util.List;
 import java.util.Set;
+
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -40,6 +42,7 @@ public class SysLoginController
      * @param loginBody 登录信息
      * @return 结果
      */
+    @ApiOperation("登录")
     @PostMapping("/login")
     public AjaxResult login(@RequestBody LoginBody loginBody)
     {

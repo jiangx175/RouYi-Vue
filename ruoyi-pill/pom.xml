@@ -43,6 +43,13 @@
             <version>1.9.6</version>
         </dependency>
 
+        <!--forest HTTP客户端框架-->
+        <dependency>
+            <groupId>com.dtflys.forest</groupId>
+            <artifactId>forest-spring-boot-starter</artifactId>
+            <version>1.5.13</version>
+        </dependency>
+
     </dependencies>
 
 </project>
