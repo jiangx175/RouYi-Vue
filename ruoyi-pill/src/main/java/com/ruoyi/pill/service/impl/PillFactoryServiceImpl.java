@@ -53,7 +53,7 @@ public class PillFactoryServiceImpl implements IPillFactoryService
     @Override
     public int insertPillFactory(PillFactory pillFactory)
     {
-        pillFactory.setCreateTime(DateUtils.getNowDate());
+        // pillFactory.setCreateTime(DateUtils.getNowDate());
         return pillFactoryMapper.insertPillFactory(pillFactory);
     }
 
@@ -66,7 +66,7 @@ public class PillFactoryServiceImpl implements IPillFactoryService
     @Override
     public int updatePillFactory(PillFactory pillFactory)
     {
-        pillFactory.setUpdateTime(DateUtils.getNowDate());
+        // pillFactory.setUpdateTime(DateUtils.getNowDate());
         return pillFactoryMapper.updatePillFactory(pillFactory);
     }
 
