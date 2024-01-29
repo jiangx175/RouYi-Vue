@@ -39,9 +39,14 @@ public class DemoController extends BaseController {
         // todo 获取code，根据code获取token，再根据token获取用户名
         // 通过用户名进行免密登录，获取4A平台token
         String res = "";
-        String username = "admin";
+        // 所有权限
+        // String username = "admin";
+        // 部分权限
+        // String username = "12002071";
+        // 已停用的用户
+        String username = "liuquanhui";
         try {
-            HttpRequest httpRequest = HttpUtil.createPost("http://192.168.232.175:9090/dev-api/loginByUsername")
+            HttpRequest httpRequest = HttpUtil.createPost("http://192.168.232.185:9090/dev-api/loginByUsername")
                     .header("Content-Type", "application/json;charset=UTF-8")  // 使用 JSON 格式
                     .body("{\"username\": \"" + username + "\"}"); // 构建JSON数据格式
             HttpResponse httpResponse = httpRequest.execute();
@@ -52,7 +57,7 @@ public class DemoController extends BaseController {
         // 获取返回code
         Integer code = (Integer) JSONUtil.getByPath(JSONUtil.parse(res), "code");
         if(!ObjectUtil.equal(code, 200)){
-            return error("登录失败，该用户名不存在！");
+            return error((String) JSONUtil.getByPath(JSONUtil.parse(res), "msg"));
         }
         // 获取token
         String token = (String) JSONUtil.getByPath(JSONUtil.parse(res), "token");
@@ -63,7 +68,9 @@ public class DemoController extends BaseController {
         response.setHeader("Access-Control-Allow-Origin", "*");
         response.setHeader("token", token);
         // 重定向到4A平台首页
-        return new RedirectView("http://192.168.160.149/apply/index");
+        // return new RedirectView("http://192.168.232.185/apply/index");
+        // 重定向到特定的路由（该路由会自动重定向到4A平台首页）
+        return new RedirectView("http://192.168.160.149/autologin?token=" + token);
     }
 
     public void setTokenValueToCookie(String key, String value, int cookieTimeout) {
